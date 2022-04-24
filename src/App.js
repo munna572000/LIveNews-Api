@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import "./index.css"
+import "./App.css"
 function App() {
     const [photo, setPhoto] = useState("")
     const [result, setResult] = useState([])
