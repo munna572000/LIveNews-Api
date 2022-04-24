@@ -1,42 +1,50 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import "./index.css"
-import "./App.css"
 function App() {
-    const [photo, setPhoto] = useState("")
-    const [result, setResult] = useState([])
 
-    const changePhoto = () => {
-        axios.get(`https://api.unsplash.com/search/photos?page=1&query=${photo}&client_id=4UhQL7IdZ55_AGB-WhQQNVlxTwun4XNQI0lXn6L-gqM`)
-            .then((response) => {
-                // console.log(response.data);
-                setResult(response.data.results);
-            })
-    }
-    return (
-        <>
-            <div className='container text-center my-5'>
-            <h1>Image search </h1>
-                <input type="text" className='form-control' value={photo} onChange={(e) => {
-                    setPhoto(e.target.value)
-                }} />
-                <button type='submit' onClick={changePhoto} className='btn btn-primary my-2'>Click me</button>
-            </div>
+  const [news, setNews] = useState([])
 
-            <div className="container">
-                <div class="row text-center text-lg-start">
-                    {result.map((value) => {
-                        return (
-                            <div class="col-lg-3 col-md-4 col-6">
-                                    <img class="img-fluid img-thumbnail d-block mb-4 h-100" src={value.urls.small} alt='' />
-                            </div>
-                        )
-                    })}
+  const fetchNews = () => {
+    axios.get("https://newsapi.org/v2/top-headlines?country=in&apiKey=6004b8fcb1604003b4ead57854e8d2c2")
+      .then((response) => {
+        console.log(response);
+        setNews(response.data.articles)
+      })
+  }
+  return (
+    <>
+      <h1>click on The botton to get live news Update</h1>
+      <div className="container my-3">
+        <div className="row">
+          <div className="col-4">
+          
+            <button className='btn btn-primary' onClick={fetchNews}>LiveNews</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="row">
+          {
+            news.map((value,index) => {
+              return (
+                <div key={index} className="col-4">
+                  <div className="card" style={{ width: "18rem" }}>
+                    <img src={value.urlToImage} className="card-img-top" alt="..." />
+                    <div className="card-body">
+                      <h5 className="card-title">{value.title}</h5>
+                      <p className="card-text">{value.description}</p>
+                      <a href="#" className="btn btn-primary">Live</a>
+                    </div>
+                  </div>
                 </div>
-
-            </div>
-        </>
-    )
+              );
+            })
+          }
+        </div>
+      </div>
+    </>
+  )
 }
 
-export default App
+export default App;
