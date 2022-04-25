@@ -10,6 +10,9 @@ function App() {
         console.log(response);
         setNews(response.data.articles)
       })
+    useEffect(()=>{
+        FetchNews();
+      })
   }
   return (
     <>
